@@ -1,0 +1,9 @@
+<div class="pageList">
+    <p (click)="goToPreviousPage()">Previous Page</p>
+    
+    @for (page of pages; track $index) {
+        <p (click)="goToSelectedPage($index)">{{page}}</p>
+    }
+
+    <p (click)="goToNextPage()">Next Page</p>
+</div>

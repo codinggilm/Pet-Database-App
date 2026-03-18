@@ -11,6 +11,8 @@
             <li (click)="goToUser(user.id)">{{user.firstName}} {{user.lastName}}</li>
         }
     </ul>
+    
+    <app-pagination [userCount]="userCount" (selectedPage)="setPage($event)" (previousPage)="previousPage()" (nextPage)="nextPage()"></app-pagination>
 }
 
 @else {

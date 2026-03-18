@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { User } from "../types/user.type";
 import { Injectable } from "@angular/core";
+import { UserCountRequested } from "../config/config";
 
 interface dummyUserListApiResponse {
     limit: number;
@@ -13,7 +14,8 @@ interface dummyUserListApiResponse {
 @Injectable({providedIn: 'root'})
 export class UserService {
 
-    apiUrl = 'https://dummyjson.com/users?limit=20';
+    userCountRequested = UserCountRequested;
+    apiUrl = `https://dummyjson.com/users?limit=${this.userCountRequested}`;
 
     constructor(private http: HttpClient) {}
 

@@ -1,15 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "../../services/user.service";
-import { BehaviorSubject, catchError, debounceTime, distinctUntilChanged, map, Observable, of, switchMap } from "rxjs";
+import { BehaviorSubject, catchError, combineLatestWith, debounceTime, distinctUntilChanged, map, Observable, of, switchMap } from "rxjs";
 import { AsyncPipe } from "@angular/common";
 import { User } from "../../types/user.type";
 import { Router } from "@angular/router";
+import { PaginationComponent } from "../pagination/pagination.component";
+import { PageSize } from "../../config/config";
 
 @Component({
   selector: 'app-user-list',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, PaginationComponent],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+  styleUrl: './user-list.component.scss',
+  standalone: true
 })
 
 
@@ -18,6 +21,10 @@ export class UserListComponent implements OnInit {
     filteredUsers$!: Observable<User[]>;
     users$!: Observable<User[]>;
     searchSubject = new BehaviorSubject<string>('');
+    selectedPageSubject = new BehaviorSubject<number>(1);
+    currentPage!: number;
+    pageSize = PageSize;
+    userCount!: number;
 
     constructor(private userService: UserService, private router: Router) {}
 
@@ -26,8 +33,9 @@ export class UserListComponent implements OnInit {
         this.filteredUsers$ = this.searchSubject.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            switchMap(searchTerms => this.users$.pipe(
-                map(users => users.filter(user => user.firstName.toLowerCase().includes(searchTerms.toLowerCase()))),
+            combineLatestWith(this.selectedPageSubject),
+            switchMap(([searchTerms, page]) => this.users$.pipe(
+                map(users => this.getDisplayedUsers(users, searchTerms, page)),
                 catchError(err => {
                     console.log(err)
                     return of([])
@@ -36,12 +44,36 @@ export class UserListComponent implements OnInit {
         )
     }
 
+    getDisplayedUsers(users: User[], searchTerms: string, page: number) : User[] {
+        const startIndex = (page - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+        // console.log(startIndex, endIndex);
+        const filteredUsers =  users.filter(user => user.firstName.toLowerCase().includes(searchTerms.toLowerCase()));
+        this.currentPage = page;
+        this.userCount = filteredUsers.length;
+        // console.log('filteredUsers.length', filteredUsers.length)
+        return filteredUsers.slice(startIndex, endIndex);
+    }
+    
+
     searchUsers(event: Event) {
         this.searchSubject.next((event.target as HTMLInputElement).value)
     }
 
     goToUser(id: number) {
-        console.log(id)
         this.router.navigate(['user', id])
+    }
+
+    setPage(pageNumber: number) {
+        this.selectedPageSubject.next(pageNumber);
+        // console.log(pageNumber)
+    }
+
+    nextPage() {
+        this.selectedPageSubject.next(this.currentPage + 1);
+    }
+
+    previousPage() {
+        this.selectedPageSubject.next(this.currentPage - 1);
     }
 }
