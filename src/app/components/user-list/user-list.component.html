@@ -1,0 +1,18 @@
+<input type="text" placeholder="Type to search users" (input)="searchUsers($event)">
+
+@if (filteredUsers$ | async; as users) {
+
+    @if(!users.length) {
+        <p>No matching user</p>
+    }
+
+    <ul>
+        @for (user of users; track user.id) {
+            <li (click)="goToUser(user.id)">{{user.firstName}} {{user.lastName}}</li>
+        }
+    </ul>
+}
+
+@else {
+    <p>Loading users...</p>
+}
