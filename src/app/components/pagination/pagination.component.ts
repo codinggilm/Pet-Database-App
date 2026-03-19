@@ -1,16 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 import { PageSize } from "../../config/config";
 
-
-
-
 @Component({
-  selector: 'app-pagination',
-  imports: [],
-  templateUrl: './pagination.component.html',
-  styleUrl: './pagination.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true
+    selector: 'app-pagination',
+    imports: [],
+    templateUrl: './pagination.component.html',
+    styleUrl: './pagination.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 
 export class PaginationComponent implements OnInit, OnChanges {
@@ -23,9 +20,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     pages!: number[];
     pageSize = PageSize;
 
-    constructor() {
-
-    }
+    constructor() {}
 
     ngOnInit(): void {
         this.getPageCount(this.userCount);
@@ -57,5 +52,4 @@ export class PaginationComponent implements OnInit, OnChanges {
     goToNextPage() {
         this.nextPage.emit();
     }
-
 }

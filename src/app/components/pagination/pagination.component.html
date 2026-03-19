@@ -1,9 +1,18 @@
-<div class="pageList">
-    <p (click)="goToPreviousPage()">Previous Page</p>
+@if (pages.length > 1 ) {
+    <button class="page-arrow prev" (click)="goToPreviousPage()">
+        ←
+    </button>
     
     @for (page of pages; track $index) {
-        <p (click)="goToSelectedPage($index)">{{page}}</p>
+        <!-- TODO: buttons need an active / disabled class -->
+        <button  
+            class="page-number" 
+            (click)="goToSelectedPage($index)">
+            {{page}}
+        </button>
     }
 
-    <p (click)="goToNextPage()">Next Page</p>
-</div>
+    <button class="page-arrow next" (click)="goToNextPage()">
+        →
+    </button>
+}

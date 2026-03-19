@@ -6,13 +6,14 @@ import { User } from "../../types/user.type";
 import { Router } from "@angular/router";
 import { PaginationComponent } from "../pagination/pagination.component";
 import { PageSize } from "../../config/config";
+import { UserCardComponent } from "../user-card/user-card.component";
 
 @Component({
-  selector: 'app-user-list',
-  imports: [AsyncPipe, PaginationComponent],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss',
-  standalone: true
+    selector: 'app-user-list',
+    imports: [AsyncPipe, PaginationComponent, UserCardComponent],
+    templateUrl: './user-list.component.html',
+    styleUrl: './user-list.component.scss',
+    standalone: true
 })
 
 
@@ -47,11 +48,9 @@ export class UserListComponent implements OnInit {
     getDisplayedUsers(users: User[], searchTerms: string, page: number) : User[] {
         const startIndex = (page - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        // console.log(startIndex, endIndex);
         const filteredUsers =  users.filter(user => user.firstName.toLowerCase().includes(searchTerms.toLowerCase()));
         this.currentPage = page;
         this.userCount = filteredUsers.length;
-        // console.log('filteredUsers.length', filteredUsers.length)
         return filteredUsers.slice(startIndex, endIndex);
     }
     
@@ -66,7 +65,6 @@ export class UserListComponent implements OnInit {
 
     setPage(pageNumber: number) {
         this.selectedPageSubject.next(pageNumber);
-        // console.log(pageNumber)
     }
 
     nextPage() {

@@ -1,0 +1,22 @@
+:host {
+    display: block;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    user-select: none;
+    
+    &:hover,
+    &:focus-visible {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        outline: none;
+    }
+}
+
+.user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;  
+    border-radius: 10px; 
+}

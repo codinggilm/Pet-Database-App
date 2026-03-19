@@ -1,4 +1,6 @@
-<input type="text" placeholder="Type to search users" (input)="searchUsers($event)">
+<div class="search-bar">
+    <input type="text" placeholder="Type to search users" (input)="searchUsers($event)">
+</div>
 
 @if (filteredUsers$ | async; as users) {
 
@@ -6,13 +8,17 @@
         <p>No matching user</p>
     }
 
-    <ul>
-        @for (user of users; track user.id) {
-            <li (click)="goToUser(user.id)">{{user.firstName}} {{user.lastName}}</li>
-        }
-    </ul>
-    
-    <app-pagination [userCount]="userCount" (selectedPage)="setPage($event)" (previousPage)="previousPage()" (nextPage)="nextPage()"></app-pagination>
+    @else {
+        <div class="user-grid">
+            @for (user of users; track user.id) {
+                <app-user-card [user]="user" (click)="goToUser(user.id)"></app-user-card>
+            }
+        </div>
+
+        <div class="pagination">
+            <app-pagination [userCount]="userCount" (selectedPage)="setPage($event)" (previousPage)="previousPage()" (nextPage)="nextPage()"></app-pagination>
+        </div>
+    }
 }
 
 @else {
