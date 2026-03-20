@@ -30,4 +30,7 @@ export class UserDetailComponent implements OnInit {
         )
     }
 
+    goBack() {
+        this.router.navigate([''])
+    }
 }

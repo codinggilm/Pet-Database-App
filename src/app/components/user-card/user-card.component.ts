@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { User } from "../../types/user.type";
 
@@ -10,15 +10,12 @@ import { User } from "../../types/user.type";
 })
 
 
-export class UserCardComponent implements OnInit {
+export class UserCardComponent {
 
     @Input() user!: User;
 
     constructor(private router: Router) {}
 
-    ngOnInit(): void {
-    }
-    
     goToUser(id: number) {
         this.router.navigate(['user', id])
     }

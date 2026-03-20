@@ -49,6 +49,7 @@ export class UserListComponent implements OnInit {
         const startIndex = (page - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
         const filteredUsers =  users.filter(user => user.firstName.toLowerCase().includes(searchTerms.toLowerCase()));
+
         this.currentPage = page;
         this.userCount = filteredUsers.length;
         return filteredUsers.slice(startIndex, endIndex);
@@ -56,11 +57,11 @@ export class UserListComponent implements OnInit {
     
 
     searchUsers(event: Event) {
-        this.searchSubject.next((event.target as HTMLInputElement).value)
+        this.searchSubject.next((event.target as HTMLInputElement).value);
     }
 
     goToUser(id: number) {
-        this.router.navigate(['user', id])
+        this.router.navigate(['user', id]);
     }
 
     setPage(pageNumber: number) {

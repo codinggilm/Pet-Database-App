@@ -37,6 +37,14 @@
     }
 }
 
+.page-number.active {
+    background-color: #7fffd4;
+}
+
+.page-arrow.disabled {
+    display: none;
+}
+
 @media (max-width: 480px) {
 
     :host {

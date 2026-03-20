@@ -1,18 +1,15 @@
-@if (pages.length > 1 ) {
-    <button class="page-arrow prev" (click)="goToPreviousPage()">
+@if (pages.length >= 1 ) {
+    <button class="page-arrow prev" [class.disabled]="firstPageActive" (click)="goToPreviousPage()">
         ←
     </button>
     
     @for (page of pages; track $index) {
-        <!-- TODO: buttons need an active / disabled class -->
-        <button  
-            class="page-number" 
-            (click)="goToSelectedPage($index)">
+        <button class="page-number" [class.active]="activePage === ($index + 1)" (click)="goToSelectedPage($index)">
             {{page}}
         </button>
     }
 
-    <button class="page-arrow next" (click)="goToNextPage()">
+    <button class="page-arrow next" [class.disabled]="lastPageActive" (click)="goToNextPage()">
         →
     </button>
 }

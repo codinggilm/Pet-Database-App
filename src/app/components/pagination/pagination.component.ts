@@ -18,6 +18,9 @@ export class PaginationComponent implements OnInit, OnChanges {
     @Output() nextPage = new EventEmitter();
 
     pages!: number[];
+    activePage: number = 1;
+    firstPageActive: boolean = true;
+    lastPageActive: boolean = false;
     pageSize = PageSize;
 
     constructor() {}
@@ -43,13 +46,18 @@ export class PaginationComponent implements OnInit, OnChanges {
 
     goToSelectedPage(pageIndex: number) {
         this.selectedPage.emit(pageIndex + 1);
+        this.activePage = pageIndex + 1;
+        this.lastPageActive = pageIndex === this.pages.length - 1 ? true : false;
+        this.firstPageActive = pageIndex === this.pages.indexOf(this.pages[0]) ? true : false;
     }
 
     goToPreviousPage() {
         this.previousPage.emit();
+        this.goToSelectedPage(this.activePage - 2);
     }
-
+    
     goToNextPage() {
         this.nextPage.emit();
+        this.goToSelectedPage(this.activePage);
     }
 }
